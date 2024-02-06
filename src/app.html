@@ -2,11 +2,25 @@
 <html lang="en" class="dark">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<link rel="icon" type="image/png"  href="%svelte.assets%/pixelperfect-s.png" />
 		<meta name="viewport" content="width=device-width" />
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover" data-theme="rocket">
+	<body data-sveltekit-preload-data="hover" data-theme="pixel-theme">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>
+
+<style>
+body {
+	background-image:
+		radial-gradient(at 50% 100%, hsla(240,45%,43%,1) 0px, transparent 50%),
+		radial-gradient(at 51% 100%, hsla(216,11%,8%,1) 0px, transparent 50%),
+		radial-gradient(at 50% 0%, hsla(216,11%,8%,1) 0px, transparent 100%);
+	background-color:hsla(216,11%,8%,1);
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+</style>
