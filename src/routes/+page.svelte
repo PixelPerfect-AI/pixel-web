@@ -2,13 +2,9 @@
     import Logo from '$lib/icons/Logo.svelte';
 </script>
 
-<div class="sticky top-0 py-2 px-4 flex items-center justify-between">
-	<div class="flex items-center">
-		<Logo width={'23'} height={'23'}/>
-		<span class="font-bold mx-1">PixelPerfect AI</span>
-	</div>
-	<!-- <button class="py-2 px-4 bg-primary-500 text-white rounded-[52px] cursor-pointer">Request Demo</button> -->
-</div>
+
+<Logo width={'40'} height={'40'}/>
+
 
 <div class="flex justify-center items-center h-screen mx-3">
 	<div class="containerh-full mx-auto flex justify-center items-center">

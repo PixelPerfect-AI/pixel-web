@@ -2,12 +2,7 @@
     import Logo from '$lib/icons/Logo.svelte';
 </script>
 
-<div class="sticky top-0 py-4 px-4 flex items-center justify-between">
-	<div class="flex items-center">
-		<Logo width={'23'} height={'23'}/>
-		<div class="mx-1 text-2xl">PixelPerfect AI</div>
-	</div>
-</div>
+<Logo width={'40'} height={'40'}/>
 
 <div class="flex flex-col justify-center items-center h-screen">
     <h1 class="my-2 text-2xl">Choose your Product:</h1>
