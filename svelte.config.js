@@ -1,4 +1,3 @@
-import adapter from '@sveltejs/adapter-auto';
 import azure from 'svelte-adapter-azure-swa';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 

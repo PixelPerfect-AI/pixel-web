@@ -1,6 +1,6 @@
 <script  lang="ts"  type="module">
-    export let width;
-    export let height;
+    export let width: number;
+    export let height: number;
 </script>
 
 <div class="sticky top-0 py-4 px-4 flex items-center justify-between">

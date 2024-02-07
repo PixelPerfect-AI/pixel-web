@@ -1,9 +1,9 @@
 <script>
-    import Logo from '$lib/icons/Logo.svelte';
+    import Logo from '$lib/Logo.svelte';
 </script>
 
 
-<Logo width={'40'} height={'40'}/>
+<Logo width={40} height={40}/>
 
 
 <div class="flex justify-center items-center h-screen mx-3">
