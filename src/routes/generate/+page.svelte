@@ -20,13 +20,13 @@
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div class="flex flex-col items-center w-60 h-60 hover:bg-surface-700" data-pid={'1'} on:click={event => {onClickProduct(event)}}>
-                <img src="https://en.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm-monogram-canvas-handbags--M45321_PM2_Front%20view.png" alt="Product 1">
-                <span class="mt-2">Product 1</span>
+                <img src="https://i.ibb.co/ykKbxCW/1.png" alt="Luxury Bag" style="object-fit: cover; width: 200px; height: 200px">
+                <span class="mt-2">Luxury Bag</span>
             </div>
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div class="flex flex-col items-center w-60 h-60 hover:bg-surface-700" data-pid={'2'} on:click={event => {onClickProduct(event)}}>
-                <img src="https://en.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm-monogram-canvas-handbags--M45321_PM2_Front%20view.png" alt="Product 2" >
+                <img src="https://i.ibb.co/sgfSDdF/QCUHLE24-PDP-GALLERY-SF-01-EXCLUSIVE-COLOR-BADGE.png" alt="Product 2" style="object-fit: cover; width: 200px; height: 200px;">
                 <span class="mt-2">Product 2</span>
             </div>
             <!-- Add more product elements here -->

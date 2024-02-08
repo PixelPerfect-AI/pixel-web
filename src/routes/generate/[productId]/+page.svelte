@@ -47,11 +47,11 @@
             <div class="w-1/2 p-4">
                 <!-- Left side - Image -->
                 <!-- svelte-ignore a11y-img-redundant-alt -->
-                <img src="https://en.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-onthego-mm-monogram-canvas-handbags--M45321_PM2_Front%20view.png" alt="Product Image" class="w-2/3 h-full">
+                <img src="https://i.ibb.co/ykKbxCW/1.png" alt="Product Image" class="w-2/3 h-full">
             </div>
             <div class="w-1/2 p-4 flex items-center ml-0">
                 <!-- Right side - Text -->
-                <p class="text-lg">Product Name</p>
+                <p class="text-lg">Luxury Bag</p>
             </div>
         </div>
         <!-- Left side - Textbox -->
@@ -69,11 +69,11 @@
             <div class="mt-4">
                 {#each supportedAspectRatios as ratio}
                     {#if ratio === '1:1'}
-                        <button id='ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-700 focus:outline-none focus:shadow-outline-blue disabled:opacity-50" disabled="disabled" on:click={event => handleARClick(event)} >
+                        <button id='ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-700 focus:outline-none focus:shadow-outline-blue opacity-50 disabled:opacity-100" disabled="disabled" on:click={event => handleARClick(event)} >
                             {'1:1'}
                         </button>
                     {:else}
-                        <button id='ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-800 focus:outline-none focus:shadow-outline-blue disabled:opacity-50" on:click={event => handleARClick(event)} >
+                        <button id='ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-800 focus:outline-none focus:shadow-outline-blue opacity-50 disabled:opacity-100" on:click={event => handleARClick(event)} >
                             {ratio}
                         </button>
                     {/if}
@@ -91,7 +91,7 @@
                 }
             </style>
 
-            <button class="w-full py-2 px-4 text-white rounded-[20px] cursor-pointer generate-button ">Generate</button>
+            <button class="w-full py-2 px-4 text-white rounded-[20px] cursor-pointer generate-button text-xl flex items-center justify-center"><div class="text-[25px]">🚀</div> Generate</button>
         </div>
     </div>
     <div class="w-2/3 p-4">
