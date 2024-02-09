@@ -25,10 +25,10 @@
             </div>
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
-            <div class="flex flex-col items-center w-60 h-60 hover:bg-surface-700" data-pid={'2'} on:click={event => {onClickProduct(event)}}>
+            <!-- <div class="flex flex-col items-center w-60 h-60 hover:bg-surface-700" data-pid={'2'} on:click={event => {onClickProduct(event)}}>
                 <img src="https://i.ibb.co/sgfSDdF/QCUHLE24-PDP-GALLERY-SF-01-EXCLUSIVE-COLOR-BADGE.png" alt="Product 2" style="object-fit: cover; width: 200px; height: 200px;">
                 <span class="mt-2">Product 2</span>
-            </div>
+            </div> -->
             <!-- Add more product elements here -->
         </div>
     </div>
