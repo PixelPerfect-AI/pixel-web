@@ -3,8 +3,9 @@
     import BackNav from '$lib/BackNav.svelte';
     import Logo from '$lib/Logo.svelte';
 	import type { PromptRequest } from '$lib/models/PromptRequest.js';
-    import { handleGenerateClick } from './generate.js';
     import { createEventDispatcher } from "svelte";
+    import Loader from '$lib/components/Loader.svelte';
+    import Loader2 from '$lib/components/Loader2.svelte';
 
     let tags = [
         'house', 'girl', 'city', 'street', 'dressing room', 'fashion', 'clothing', 'apparel'
@@ -15,6 +16,7 @@
     let promptText = '';
     let selectedTags = [];
     let selectedAspectRatio = '';
+    let loading = false;
 
     const dispatch = createEventDispatcher();
 
@@ -55,6 +57,7 @@
     // Build PromptRequest object
     // sorry disabled buttons means they are selected, work with this for now
     function buildPromptRequest() {
+        loading = true;
         const promptText = (document.getElementById('input-prompt') as HTMLTextAreaElement).value;
         const selectedTags: (string)[] = []
         document.querySelectorAll('[id^="input-tags-"]').forEach(tag => {
@@ -74,19 +77,13 @@
             triggerWord:'lv black'
         } as PromptRequest;
 
+        // clear the output images
+        const outputImages = document.getElementById('output-images');
+        outputImages.innerHTML = '';
+
+
         function handleGenerateClick(payload: PromptRequest) {
             // disable generate button
-            const generateButton = document.getElementById('generate-btn');
-            if (generateButton) {
-                generateButton.disabled = true;
-            }
-
-
-            const outputImages = document.getElementById('output-images');
-            // remove images from the div with id 'output-images'
-            if (outputImages) {
-                outputImages.innerHTML = '';
-            }
 
             const ws = new WebSocket('ws://136.38.105.217:33221');
             console.log('Connecting to websocket server...');
@@ -108,14 +105,11 @@
                     response.forEach((image: string) => {
                         const img = document.createElement('img');
                         img.src = image;
-                        img.className = 'w-1/2';
+                        img.className = 'w-1/2 h-auto';
                         outputImages.appendChild(img);
                     });
                 } 
-                // enable generate button
-                if (generateButton) {
-                    generateButton.disabled = false;
-                }
+                loading = false;
         };
     }
 
@@ -138,14 +132,14 @@
                 <!-- svelte-ignore a11y-img-redundant-alt -->
                 <img src="https://i.ibb.co/ykKbxCW/1.png" alt="Product Image" class="w-2/3 h-full">
             </div>
-            <div class="w-1/2 p-4 flex items-center ml-0">
+            <div class="w-full p-4 flex items-center ml-0">
                 <!-- Right side - Text -->
                 <p class="text-lg">Luxury Bag</p>
             </div>
         </div>
         <!-- Left side - Textbox -->
         <p>Prompt</p>
-        <textarea id="input-prompt" class="mt-2 mb-4 w-full p-2 border border-gray-300 bg-surface-600 rounded h-20" placeholder="How do you imagine your product being used?" bind:value={promptText}></textarea>
+        <textarea disabled={loading} id="input-prompt" class="mt-2 mb-4 w-full p-2 border border-gray-300 bg-surface-600 rounded h-20" placeholder="How do you imagine your product being used?" bind:value={promptText}></textarea>
         <p>Recommended keywords (optional)</p>
         <div class="mt-2">
             {#each tags as tag}
@@ -179,13 +173,23 @@
                     background: linear-gradient(90deg, #5C24FF 0%, #FF3BFF);
                 }
             </style>
-
-            <button id="generate-btn" class="w-full py-2 px-4 text-white rounded-[20px] cursor-pointer generate-button text-xl flex items-center justify-center disabled:opacity-40" on:click={buildPromptRequest}><div class="text-[25px]">🚀</div> Generate</button>
+            {#if loading}
+            <div class="flex justify-center items-center h-full w-full">
+                <Loader2/>
+            </div>
+            {:else}
+                <button disabled={loading} id="generate-btn" class="w-full py-2 px-4 text-white rounded-[20px] cursor-pointer generate-button text-xl flex items-center justify-center disabled:opacity-40" on:click={buildPromptRequest}><div class="text-[25px]">🚀</div> Generate</button>
+            {/if}
         </div>
     </div>
     <div class="w-2/3 p-4">
         <!-- Right side - Placeholder image -->
-        <div id="output-images" class="w-full h-full bg-surface-600 bg-opacity-30 flex flex-wrap overflow-auto disabled:z-20">
+        <div id="output-images" class="w-full h-full bg-surface-600 bg-opacity-30 flex flex-wrap overflow-auto">
+        {#if loading}
+            <div class="flex justify-center items-center h-full w-full">
+                <Loader/>
+            </div>
+        {/if}
         </div>
 </div>    
 </div>

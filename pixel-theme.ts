@@ -3,8 +3,8 @@ import type { CustomThemeConfig } from '@skeletonlabs/tw-plugin';
 export const pixelTheme: CustomThemeConfig  = {
 	name: 'pixel-theme',
 	properties: {
-		'--theme-font-family-heading': 'Inter, system-ui, sans-serif',
-		'--theme-font-family-base': 'system-ui',
+		'--theme-font-family-heading': 'sans-serif',
+		'--theme-font-family-base': 'sans-serif',
 		'--theme-font-color-base': '23 37 84',
 		'--theme-font-color-dark': '255 255 255',
 		'--theme-rounded-base': '9999px',
