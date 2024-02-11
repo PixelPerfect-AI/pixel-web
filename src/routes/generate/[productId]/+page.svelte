@@ -6,6 +6,11 @@
     import { createEventDispatcher } from "svelte";
     import Loader from '$lib/components/Loader.svelte';
     import Loader2 from '$lib/components/Loader2.svelte';
+    import type { ProductData } from '$lib/models/ProductData.js';
+    import { page } from '$app/stores'
+
+    export let data: {products: ProductData[]};
+    const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
 
     let tags = [
         'house', 'girl', 'city', 'street', 'dressing room', 'fashion', 'clothing', 'apparel'
@@ -73,8 +78,8 @@
             keywords:selectedTags,
             aspectRatio:selectedAspectRatio,
             type:'lora',
-            model:'lv-000009.safetensors',
-            triggerWord:'lv black'
+            model: product.lora_model_name,
+            triggerWord: product.trigger_word
         } as PromptRequest;
 
         // clear the output images
@@ -86,6 +91,7 @@
             // disable generate button
 
             const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
+            // const ws = new WebSocket('ws://127.0.0.1:5000/ws');
             console.log('Connecting to websocket server...');
 
             ws.onopen = () => {
@@ -130,11 +136,11 @@
             <div class="w-1/2 p-4">
                 <!-- Left side - Image -->
                 <!-- svelte-ignore a11y-img-redundant-alt -->
-                <img src="https://i.ibb.co/ykKbxCW/1.png" alt="Product Image" class="w-2/3 h-full">
+                <img src="{product.thumbnail}" alt={product.name} class="w-2/3 h-full">
             </div>
             <div class="w-full p-4 flex items-center ml-0">
                 <!-- Right side - Text -->
-                <p class="text-lg">Luxury Bag</p>
+                <p class="text-lg">{product.name}</p>
             </div>
         </div>
         <!-- Left side - Textbox -->
