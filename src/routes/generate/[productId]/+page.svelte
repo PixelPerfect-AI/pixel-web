@@ -85,7 +85,7 @@
         function handleGenerateClick(payload: PromptRequest) {
             // disable generate button
 
-            const ws = new WebSocket('ws://pixel-backend.azurewebsites.net/ws');
+            const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
             console.log('Connecting to websocket server...');
 
             ws.onopen = () => {
