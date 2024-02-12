@@ -1,4 +1,5 @@
 import type { ProductData } from '$lib/models/ProductData';
+import { redirect } from '@sveltejs/kit';
 
 // TODO Unwanted API call need to be removed some day
 export async function load({ cookies }) {
@@ -11,7 +12,7 @@ export async function load({ cookies }) {
         })
         .catch(error => {
             // Handle the error
-            console.log("API Error")
-            return { error };
+            console.log(error)
+            throw redirect(303, '/admin');
         });
 }

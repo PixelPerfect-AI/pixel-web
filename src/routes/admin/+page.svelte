@@ -24,11 +24,14 @@
                 if(data.success){
                     document.cookie = `admin_key=${data.admin_id};`;
                     goto("/generate")
+                } else {
+                    throw new Error(data.message);
                 }
             } else {
-                throw new Error('Invalid username or password');
+                throw new Error('Internal server error. Please try again later.');
             }
         } catch (err) {
+            // @ts-ignore
             error = err.message;
         }
     }
@@ -40,10 +43,32 @@
     form input {
         color: black;
     }
+    /*Center the content on the webpage*/
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    /*Style the button*/
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    /*Inputs should be 100% width as well*/
+    input {
+        width: 100%;
+    }
 </style>
   
 <main>
-    <h1>Login</h1>
+    <h1>Access validation</h1>
         {#if errorMessage}
             <p>{errorMessage}</p>
         {/if}
@@ -54,7 +79,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" bind:value={password} />
 
-        <button type="submit">Login</button>
+        <button type="submit">Validate</button>
     </form>
 </main>
   
