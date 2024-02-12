@@ -12,8 +12,7 @@
         let pid = event.currentTarget?.getAttribute('data-pid')
         goto(`/generate/${pid}`)
     }
-
-    console.log(data);
+    
 </script>
 
 <Logo width={40} height={40}/>
