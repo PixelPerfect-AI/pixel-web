@@ -149,8 +149,8 @@
         <!-- Left side - Textbox -->
         <PromptBox loading={loading} promptText={promptText} item={product.product_type} />
         <div class="mt-2">
-            // Comment it while developing this page
-            <!-- <Keywords item={product.product_type}/> -->
+            <!-- Comment it while developing this page -->
+            <Keywords item={product.product_type}/>
             <hr class="mt-4 mb-4">
             <p>Aspect Ratio</p>
             <div class="mt-4">
