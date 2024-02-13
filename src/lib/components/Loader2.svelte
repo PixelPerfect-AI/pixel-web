@@ -8,6 +8,8 @@
   .lds-ellipsis div {
     position: absolute;
     top: 33px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
     background: #fff;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
@@ -60,4 +62,4 @@
 
 </script>
 
-<div class="lds-ellipsis"><div class="w-[{width}px}] h-[{height}px]"></div><div></div><div></div><div></div></div>
+<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>

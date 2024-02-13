@@ -38,7 +38,7 @@
     <p>Prompt</p>
     <textarea disabled={loading || promptLoading} id="input-prompt" class="mt-2 w-full p-2 border border-gray-300 bg-surface-600 rounded h-20" placeholder="How do you imagine your product being used?" bind:value={promptText}></textarea>
     {#if promptLoading}
-        <Loader2 width={7} height={7}/>
+        <p>Our friend ChatGPT is now making your prompt GREAT...</p>
     {:else}
         <button class="text-primary-600" disabled={loading} on:click={handleClick}>Click to enhance your prompt with ChatGPT</button>
     {/if}
