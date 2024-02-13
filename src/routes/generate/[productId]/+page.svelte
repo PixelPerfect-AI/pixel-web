@@ -14,15 +14,12 @@
     export let data: {products: ProductData[]};
     const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
 
-    let tags = [
-        'house', 'girl', 'city', 'street', 'dressing room', 'fashion', 'clothing', 'apparel'
-    ];
-
     let supportedAspectRatios = ['1:1', '4:3', '16:9'];
 
     let promptText = '';
     let selectedAspectRatio = '';
     let loading = false;
+    let loaderText = 'Starting up...';
 
     const dispatch = createEventDispatcher();
 
@@ -82,6 +79,15 @@
             // const ws = new WebSocket('ws://127.0.0.1:5000/ws');
             console.log('Connecting to websocket server...');
 
+            ws.onerror = (error: Event) => {
+                console.log('Error connecting to websocket server');
+                setTimeout(() => {
+                    loaderText = 'Error connecting to websocket server';
+                }, 1000);
+                console.log(error);
+                loading = false;
+            };
+
             ws.onopen = () => {
                 console.log('Connected to websocket server');
                 console.log(`Sending payload: ${JSON.stringify(payload)}`);
@@ -91,21 +97,30 @@
             ws.onmessage = (event: { data: string }) => {
                 console.log(`Message received: ${event.data}`);
                 // parse it as a list of strings
-                const response = JSON.parse(event.data);
-                // add the images to the div with id 'output-images', expect 4 images to be arranged in a 2 x 2 format
-                const outputImages = document.getElementById('output-images');
-                if (outputImages) {
-                    outputImages.innerHTML = '';
-                    response.forEach((image: string) => {
-                        const img = document.createElement('img');
-                        img.src = image;
-                        img.className = 'w-1/2 h-auto';
-                        outputImages.appendChild(img);
-                    });
-                } 
-                loading = false;
-        };
-    }
+                try
+                {
+                    const response = JSON.parse(event.data);
+                    // add the images to the div with id 'output-images', expect 4 images to be arranged in a 2 x 2 format
+                    // if type is string 
+                    const outputImages = document.getElementById('output-images');
+                    if (outputImages) {
+                        outputImages.innerHTML = '';
+                        response.forEach((image: string) => {
+                            const img = document.createElement('img');
+                            img.src = image;
+                            img.className = 'w-1/2 h-auto';
+                            outputImages.appendChild(img);
+                        });
+                    } 
+                    loading = false;
+                }
+                catch (e)
+                {
+                    console.log(e);
+                    loaderText = event.data;
+                }
+            };
+        }
 
         console.log(promptRequest);
         handleGenerateClick(promptRequest);
@@ -134,7 +149,8 @@
         <!-- Left side - Textbox -->
         <PromptBox loading={loading} promptText={promptText} item={product.product_type} />
         <div class="mt-2">
-            <Keywords item={product.product_type}/>
+            // Comment it while developing this page
+            <!-- <Keywords item={product.product_type}/> -->
             <hr class="mt-4 mb-4">
             <p>Aspect Ratio</p>
             <div class="mt-4">
@@ -174,8 +190,11 @@
         <!-- Right side - Placeholder image -->
         <div id="output-images" class="w-full h-full bg-surface-600 bg-opacity-30 flex flex-wrap overflow-auto">
         {#if loading}
-            <div class="flex justify-center items-center h-full w-full">
+            <div class="flex flex-col justify-center items-center h-full w-full">
                 <Loader/>
+                <div>
+                    <p> {loaderText} </p>
+                </div>
             </div>
         {/if}
         </div>
