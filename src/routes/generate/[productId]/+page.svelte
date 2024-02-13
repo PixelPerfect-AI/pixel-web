@@ -8,6 +8,8 @@
     import Loader2 from '$lib/components/Loader2.svelte';
     import type { ProductData } from '$lib/models/ProductData.js';
     import { page } from '$app/stores'
+    import PromptBox from './PromptBox.svelte';
+	import Keywords from './Keywords.svelte';
 
     export let data: {products: ProductData[]};
     const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
@@ -19,24 +21,10 @@
     let supportedAspectRatios = ['1:1', '4:3', '16:9'];
 
     let promptText = '';
-    let selectedTags = [];
     let selectedAspectRatio = '';
     let loading = false;
 
     const dispatch = createEventDispatcher();
-
-    // Handle tag button click event
-    function handleTagClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
-        let tag = event.currentTarget.textContent;
-        console.log(tag);
-        event.currentTarget.disabled = !event.currentTarget.disabled;
-
-        if (event.currentTarget.disabled) {
-            selectedTags = selectedTags.filter(t => t !== tag);
-        } else {
-            selectedTags.push(tag);
-        }
-    }
 
     // Handle aspect ratio button click event
     function handleARClick(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement; }) {
@@ -74,8 +62,8 @@
         const selectedAspectRatio = selectedAspectRatioElement ? selectedAspectRatioElement.textContent : '1:1';
 
         const promptRequest = {
-            prompt:promptText,
-            keywords:selectedTags,
+            prompt:promptText, // in PromptBox.svelte
+            keywords:selectedTags, // in Keywords.svelte
             aspectRatio:selectedAspectRatio,
             type:'lora',
             model: product.lora_model_name,
@@ -144,15 +132,9 @@
             </div>
         </div>
         <!-- Left side - Textbox -->
-        <p>Prompt</p>
-        <textarea disabled={loading} id="input-prompt" class="mt-2 mb-4 w-full p-2 border border-gray-300 bg-surface-600 rounded h-20" placeholder="How do you imagine your product being used?" bind:value={promptText}></textarea>
-        <p>Recommended keywords (optional)</p>
+        <PromptBox loading={loading} promptText={promptText} item={product.product_type} />
         <div class="mt-2">
-            {#each tags as tag}
-            <button id="input-tags-{tag}" class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-700 focus:outline-none focus:shadow-outline-blue opacity-50 disabled:opacity-100" on:click={event => handleTagClick(event)}>
-                {tag}
-            </button>
-            {/each}
+            <Keywords item={product.product_type}/>
             <hr class="mt-4 mb-4">
             <p>Aspect Ratio</p>
             <div class="mt-4">

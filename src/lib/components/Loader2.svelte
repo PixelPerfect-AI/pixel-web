@@ -3,13 +3,11 @@
     display: inline-block;
     position: relative;
     width: 80px;
-    height: 80px;
+    height: 60px;
   }
   .lds-ellipsis div {
     position: absolute;
     top: 33px;
-    width: 13px;
-    height: 13px;
     border-radius: 50%;
     background: #fff;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
@@ -56,4 +54,10 @@
   }
 </style>  
 
-<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+<script>
+  export let width = 13;
+  export let height = 13;
+
+</script>
+
+<div class="lds-ellipsis"><div class="w-[{width}px}] h-[{height}px]"></div><div></div><div></div><div></div></div>
