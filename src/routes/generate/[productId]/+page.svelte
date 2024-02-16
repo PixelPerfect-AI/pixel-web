@@ -10,6 +10,7 @@
     import { page } from '$app/stores'
     import PromptBox from './PromptBox.svelte';
 	import Keywords from './Keywords.svelte';
+    import ReferenceImageUploader from './ReferenceImageUploader.svelte';
 
     export let data: {products: ProductData[]};
     const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
@@ -20,6 +21,9 @@
     let selectedAspectRatio = '';
     let loading = false;
     let loaderText = 'Starting up...';
+
+    let filename = '';
+    let influence = 0.5;
 
     const dispatch = createEventDispatcher();
 
@@ -55,6 +59,8 @@
                 selectedTags.push(tag?.textContent ?? '');
             }
         });
+        const filename = (document.getElementById('file') as HTMLInputElement).files?.[0]?.name ?? '';
+        const influence = (document.getElementById('influence') as HTMLInputElement)?.value ?? 0.5;
         const selectedAspectRatioElement = document.querySelector('[id^="input-ar-"]:disabled');
         const selectedAspectRatio = selectedAspectRatioElement ? selectedAspectRatioElement.textContent : '1:1';
 
@@ -64,7 +70,9 @@
             aspectRatio:selectedAspectRatio,
             type:'lora',
             model: product.lora_model_name,
-            triggerWord: product.trigger_word
+            triggerWord: product.trigger_word,
+            filename: filename,
+            influence: influence
         } as PromptRequest;
 
         // clear the output images
@@ -75,8 +83,8 @@
         function handleGenerateClick(payload: PromptRequest) {
             // disable generate button
 
-            const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
-            // const ws = new WebSocket('ws://127.0.0.1:5000/ws');
+            // const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
+            const ws = new WebSocket('ws://127.0.0.1:5000/ws');
             console.log('Connecting to websocket server...');
 
             ws.onerror = (error: Event) => {
@@ -166,6 +174,7 @@
                     {/if}
                 {/each}
             </div>
+            <ReferenceImageUploader filename={filename} influence={influence}/>
         </div>
         <div class='mt-4'>
             <style>
