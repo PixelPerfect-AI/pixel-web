@@ -9,8 +9,9 @@
     import type { ProductData } from '$lib/models/ProductData.js';
     import { page } from '$app/stores'
     import PromptBox from './PromptBox.svelte';
-	import Keywords from './Keywords.svelte';
     import ReferenceImageUploader from './ReferenceImageUploader.svelte';
+    import StyleSelect from './StyleSelect.svelte';
+    import ImageGallery from '@react2svelte/image-gallery';
 
     export let data: {products: ProductData[]};
     const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
@@ -24,6 +25,8 @@
 
     let filename = '';
     let influence = 0.5;
+
+    let images = [] as {original: string, thumbnail: string}[]; 
 
     const dispatch = createEventDispatcher();
 
@@ -53,12 +56,7 @@
     function buildPromptRequest() {
         loading = true;
         const promptText = (document.getElementById('input-prompt') as HTMLTextAreaElement).value;
-        const selectedTags: (string)[] = []
-        document.querySelectorAll('[id^="input-tags-"]').forEach(tag => {
-            if (tag.disabled) {
-                selectedTags.push(tag?.textContent ?? '');
-            }
-        });
+        const selectedTags: string = (document.getElementById('style-def') as HTMLTextAreaElement).getAttribute('data-tags'); // in StyleSelect.svelte
         const filename = (document.getElementById('file') as HTMLInputElement).files?.[0]?.name ?? '';
         const influence = (document.getElementById('influence') as HTMLInputElement)?.value ?? 0.5;
         const selectedAspectRatioElement = document.querySelector('[id^="input-ar-"]:disabled');
@@ -66,7 +64,7 @@
 
         const promptRequest = {
             prompt:promptText, // in PromptBox.svelte
-            keywords:selectedTags, // in Keywords.svelte
+            keywords:selectedTags.split(','), // in Keywords.svelte
             aspectRatio:selectedAspectRatio,
             type:'lora',
             model: product.lora_model_name,
@@ -82,9 +80,9 @@
 
         function handleGenerateClick(payload: PromptRequest) {
             // disable generate button
-
-            const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
-            // const ws = new WebSocket('ws://127.0.0.1:5000/ws');
+            images = [];
+            // const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
+            const ws = new WebSocket('ws://127.0.0.1:5000/ws');
             console.log('Connecting to websocket server...');
 
             ws.onerror = (error: Event) => {
@@ -110,20 +108,14 @@
                     const response = JSON.parse(event.data);
                     // add the images to the div with id 'output-images', expect 4 images to be arranged in a 2 x 2 format
                     // if type is string 
-                    const outputImages = document.getElementById('output-images');
-                    if (outputImages) {
-                        outputImages.innerHTML = '';
-                        response.forEach((image: string) => {
-                            const img = document.createElement('img');
-                            img.src = image;
-                            img.className = 'w-1/2 h-auto';
-                            outputImages.appendChild(img);
-                        });
-                    } 
+                    images = response.map((image: string) => {
+                        return {original: image, thumbnail: image};
+                    });
+                    
                     loading = false;
                 }
                 catch (e)
-                {
+                {   
                     console.log(e);
                     loaderText = event.data;
                 }
@@ -141,7 +133,7 @@
 
 <BackNav title={'Your Studio'} />
 
-<div class="mx-20 mb-10 bg-surface-600 bg-opacity-30 flex">
+<div class="mx-20 mb-10 bg-surface-600 bg-opacity-30 flex ">
     <div class="w-1/3 p-4">
         <div class="flex">
             <div class="w-1/2 p-4">
@@ -158,17 +150,18 @@
         <PromptBox loading={loading} promptText={promptText} item={product.product_type} />
         <div class="mt-2">
             <!-- Comment it while developing this page -->
-            <Keywords item={product.product_type}/>
+            <!-- <Keywords item={product.product_type}/> -->
+            <StyleSelect/>
             <hr class="mt-4 mb-4">
             <p>Aspect Ratio</p>
             <div class="mt-4">
                 {#each supportedAspectRatios as ratio}
                     {#if ratio === '1:1'}
-                        <button id='input-ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-700 focus:outline-none focus:shadow-outline-blue opacity-50 disabled:opacity-100" disabled="disabled" on:click={event => handleARClick(event)} >
+                        <button id='input-ar-{ratio.replace(':', '')}' class="btn variant-filled p-2 m-1" disabled="disabled" on:click={event => handleARClick(event)} >
                             {'1:1'}
                         </button>
                     {:else}
-                        <button id='input-ar-{ratio.replace(':', '')}' class="inline-block p-1 mr-2 mb-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-primary-600 border border-transparent rounded-lg active:bg-primary-600 hover:bg-primary-800 focus:outline-none focus:shadow-outline-blue opacity-50 disabled:opacity-100" on:click={event => handleARClick(event)} >
+                        <button id='input-ar-{ratio.replace(':', '')}' class="btn variant-filled p-2 m-1" on:click={event => handleARClick(event)} >
                             {ratio}
                         </button>
                     {/if}
@@ -195,7 +188,7 @@
             {/if}
         </div>
     </div>
-    <div class="w-2/3 p-4">
+    <div class="w-2/3 p-4 max-h-full">
         <!-- Right side - Placeholder image -->
         <div id="output-images" class="w-full h-full bg-surface-600 bg-opacity-30 flex flex-wrap overflow-auto">
         {#if loading}
@@ -205,7 +198,11 @@
                     <p> {loaderText} </p>
                 </div>
             </div>
+        {:else if images.length > 0}
+            <div class="flex mx-auto">
+                <ImageGallery additionalClass="w-[70%] mx-auto my-auto" items={images} showPlayButton={false}/>
+            </div>
         {/if}
         </div>
+    </div>
 </div>    
-</div>

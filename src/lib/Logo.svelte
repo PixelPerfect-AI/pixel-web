@@ -3,7 +3,7 @@
     export let height: number;
 </script>
 
-<div class="sticky top-0 py-4 px-4 flex items-center justify-between">
+<div class="top-0 py-4 px-4 flex items-center justify-between">
     <div class="flex items-center">
         <svg {width} {height} viewBox="0 0 604 943" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M259 127.5C259 197.916 201.916 255 131.5 255C61.0837 255 4.00003 197.916 4.00003 127.5C4.00003 57.0837 61.0837 0 131.5 0C201.916 0 259 57.0837 259 127.5Z" fill="#4A46FF"/>

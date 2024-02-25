@@ -41,7 +41,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@floating-ui/dom": "1.6.0"
+    "@floating-ui/dom": "1.6.0",
+    "@react2svelte/image-gallery": "^1.0.1"
   },
   "engines": {
     "node": ">=18.13 <19"
