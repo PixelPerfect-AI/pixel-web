@@ -19,7 +19,7 @@
         <div class="text-center mx-auto">
             <div class="text-7xl font-bold">Instant Marketing Content</div>
             <!-- TODO: fix the gradient coloring -->
-            <div class="text-7xl font-bold mt-4 bg-gradient-to-r from-[#FF3BFF] via-[#ECBFBF] via-[#5C24FF] to-[#D94FD5] inline-block text-transparent bg-clip-text">Professional At Low Cost</div>
+            <div class="text-7xl font-bold mt-4 inline-block text-transparent bg-clip-text bg-gradient-to-r from-grad1 via-grad2 via-grad3 to-grad4">Professional At Low Cost</div>
             <div class="mt-4">PixelPerfect is an AI-based platform that streamlines content creation<br>and distribution for e-commerce owners and retailers, saving you a<br>vast amount of time and expenses on outsourcing creatives.</div>
             <button class="bg-blue-600 text-white px-4 py-2 rounded-full mt-10 mx-auto">REQUEST A DEMO</button>
         </div>
@@ -105,6 +105,23 @@
             <button class="bg-blue-600 text-white px-4 py-2 rounded-full mt-10">REQUEST A DEMO</button>
         </div>
 
-        <!-- TODO: footer -->
+        <div class="flex justify-between items-center p-3 my-20">
+            <div class="flex flex-col items-start ml-20">
+                <Logo width={40} height={40}/>
+                <div class="flex items-center space-x-6 mt-4 px-4">
+                    <img src="twitter.svg" alt="Twitter" class="w-6 h-6"/>
+                    <img src="facebook.svg" alt="Facebook" class="w-6 h-6"/>
+                    <img src="linkedin.svg" alt="LinkedIn" class="w-6 h-6"/>
+                    <img src="instagram.svg" alt="Instagram" class="w-6 h-6"/>
+                    <img src="youtube.svg" alt="YouTube" class="w-6 h-6"/>
+                </div>
+            </div>
+            <div class="flex items-center space-x-5">
+            <div class="flex flex-col items-start mr-20 space-y-4">
+                <div class="text-xl font-bold">PixelPerfect AI</div>
+                <div class="text">About Us</div>
+                <div class="text">How It Works</div>
+            </div>
+        </div>
     </div>
 </body>

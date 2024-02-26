@@ -13,6 +13,12 @@ export default {
 			borderRadius: {
 				'30': '30px'
 			},
+			colors: {
+				'grad1': '#FF3BFF',
+				'grad2': '#ECBFBF',
+				'grad3': '#5C24FF',
+				'grad4': '#D94FD5',
+			}
 		},
 		maxWidth: {
 			'1/4': '25%',
