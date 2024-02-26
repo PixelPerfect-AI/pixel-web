@@ -7,4 +7,7 @@ export interface PromptRequest {
     aspectRatio: string;
     model: string;
     triggerWord: string;
+    genarationSeed: number,
+    diffusionSteps: number,
+    refine: boolean
 }

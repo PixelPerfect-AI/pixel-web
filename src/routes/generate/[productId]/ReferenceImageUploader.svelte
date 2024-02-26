@@ -70,7 +70,7 @@
 </script>
 
 
-<div class="mt-2">
+<div class="mt-4">
     Add a reference image (optional)
     <div>
         <div class="w-full">

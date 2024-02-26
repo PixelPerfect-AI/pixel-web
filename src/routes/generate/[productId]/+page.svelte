@@ -12,6 +12,7 @@
     import ReferenceImageUploader from './ReferenceImageUploader.svelte';
     import StyleSelect from './StyleSelect.svelte';
     import ImageGallery from '@react2svelte/image-gallery';
+    import AdvancedAccordian from './AdvancedAccordian.svelte';
 
     export let data: {products: ProductData[]};
     const product = data.products.filter((p) => p.id === $page.url.pathname.substring($page.url.pathname.lastIndexOf('/') + 1))[0];
@@ -25,6 +26,11 @@
 
     let filename = '';
     let influence = 0.5;
+
+    let diffusionSteps: number;
+    let refine: boolean;
+    let genarationSeed: number | undefined;
+    let randomSeed = true;
 
     let images = [] as {original: string, thumbnail: string}[]; 
 
@@ -55,12 +61,14 @@
     // sorry disabled buttons means they are selected, work with this for now
     function buildPromptRequest() {
         loading = true;
-        const promptText = (document.getElementById('input-prompt') as HTMLTextAreaElement).value;
+        const promptText = (document.getElementById('input-prompt') as HTMLTextAreaElement).value; //use bind
         const selectedTags: string = (document.getElementById('style-def') as HTMLTextAreaElement).getAttribute('data-tags'); // in StyleSelect.svelte
         const filename = (document.getElementById('file') as HTMLInputElement).files?.[0]?.name ?? '';
         const influence = (document.getElementById('influence') as HTMLInputElement)?.value ?? 0.5;
         const selectedAspectRatioElement = document.querySelector('[id^="input-ar-"]:disabled');
         const selectedAspectRatio = selectedAspectRatioElement ? selectedAspectRatioElement.textContent : '1:1';
+        if(randomSeed || !genarationSeed)
+            genarationSeed = Math.floor(Math.random() * 0xffffffffffffffff);
 
         const promptRequest = {
             prompt:promptText, // in PromptBox.svelte
@@ -70,7 +78,10 @@
             model: product.lora_model_name,
             triggerWord: product.trigger_word,
             filename: filename,
-            influence: influence
+            influence: influence,
+            genarationSeed: genarationSeed,
+            diffusionSteps: diffusionSteps,
+            refine: refine
         } as PromptRequest;
 
         // clear the output images
@@ -116,7 +127,6 @@
                 }
                 catch (e)
                 {   
-                    console.log(e);
                     loaderText = event.data;
                 }
             };
@@ -147,14 +157,14 @@
             </div>
         </div>
         <!-- Left side - Textbox -->
-        <PromptBox loading={loading} promptText={promptText} item={product.product_type} />
+        <PromptBox loading={loading} bind:promptText={promptText} bind:item={product.product_type} />
         <div class="mt-2">
             <!-- Comment it while developing this page -->
             <!-- <Keywords item={product.product_type}/> -->
             <StyleSelect/>
             <hr class="mt-4 mb-4">
             <p>Aspect Ratio</p>
-            <div class="mt-4">
+            <div>
                 {#each supportedAspectRatios as ratio}
                     {#if ratio === '1:1'}
                         <button id='input-ar-{ratio.replace(':', '')}' class="btn variant-filled p-2 m-1" disabled="disabled" on:click={event => handleARClick(event)} >
@@ -168,6 +178,7 @@
                 {/each}
             </div>
             <ReferenceImageUploader filename={filename} influence={influence}/>
+            <AdvancedAccordian bind:refine={refine} bind:genarationSeed={genarationSeed} bind:diffusionSteps={diffusionSteps} bind:randomSeed={randomSeed}/>
         </div>
         <div class='mt-4'>
             <style>
