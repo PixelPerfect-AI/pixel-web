@@ -19,7 +19,7 @@
             </svelte:fragment>
             <svelte:fragment slot="summary">Advanced Options</svelte:fragment>
             <svelte:fragment slot="content">
-                <RangeSlider name="range-slider" bind:value={diffusionSteps} max={25} step={1} ticked>
+                <RangeSlider name="range-slider" bind:value={diffusionSteps} max={max} step={1} ticked>
                     <div class="flex justify-between items-center">
                         <div>Diffusion Steps</div>
                         <div class="text-xs">{diffusionSteps} / {max}</div>
