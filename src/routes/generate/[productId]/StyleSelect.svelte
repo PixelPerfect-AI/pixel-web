@@ -27,10 +27,10 @@
 <div>
     <p>Styles - Early Feature Preview</p>
     <div class="justify-center items-center flex" id="style-def" data-tags={tags}>
-        {#each ['Pixar Animation', 'Realistic', 'Photoshoot'] as c}
+        {#each ['Realistic', 'Photoshoot'] as c}
             <button
                 class="chip {style === c ? 'variant-filled' : 'variant-soft'} m-1 h-25 min-w-20 w-40"
-                on:click={() => { style = c; tags=styleDict[c][1];}}
+                on:click={() => {if (style == c) {style = '' } else {style = c; tags=styleDict[c][1];}}}
                 on:keypress
             >   
                 <span class="flex flex-col items-center">
