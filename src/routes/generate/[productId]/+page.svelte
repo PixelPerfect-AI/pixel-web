@@ -91,7 +91,6 @@
 
         function handleGenerateClick(payload: PromptRequest) {
             // disable generate button
-            images = [];
             const ws = new WebSocket('wss://pixel-backend.azurewebsites.net/ws');
             // const ws = new WebSocket('ws://127.0.0.1:5000/ws');
             console.log('Connecting to websocket server...');
@@ -119,9 +118,9 @@
                     const response = JSON.parse(event.data);
                     // add the images to the div with id 'output-images', expect 4 images to be arranged in a 2 x 2 format
                     // if type is string 
-                    images = response.map((image: string) => {
+                    images = [...response.map((image: string) => {
                         return {original: image, thumbnail: image};
-                    });
+                    }), ...images];
                     
                     loading = false;
                 }
@@ -178,7 +177,7 @@
                 {/each}
             </div>
             <ReferenceImageUploader filename={filename} influence={influence}/>
-            <AdvancedAccordian bind:refine={refine} bind:genarationSeed={genarationSeed} bind:diffusionSteps={diffusionSteps} bind:randomSeed={randomSeed}/>
+            <!-- <AdvancedAccordian bind:refine={refine} bind:genarationSeed={genarationSeed} bind:diffusionSteps={diffusionSteps} bind:randomSeed={randomSeed}/> -->
         </div>
         <div class='mt-4'>
             <style>
